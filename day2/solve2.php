@@ -6,7 +6,16 @@ $opcodes = explode(',', $input);
 $opcodes = array_map('intval', $opcodes);
 
 
-echo run_opcodes($opcodes, 12, 2);
+for ($noun = 1; $noun <= 100; $noun++) {
+    for ($verb = 1; $verb <= 100; $verb++) {
+        if (run_opcodes($opcodes, $noun, $verb) === 19690720) {
+            echo 100 * $noun + $verb;
+            exit;
+        }
+    }
+}
+
+exit("Program exited without solutions");
 
 function run_opcodes($opcodes, $noun, $verb) {
     $opcodes[1] = $noun;
