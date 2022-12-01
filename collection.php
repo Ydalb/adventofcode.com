@@ -380,7 +380,7 @@ class Input {
     }
 
     public function take(int $take) : self {
-        array_splice($this->items, $take);
+        $this->items = array_slice($this->items, 0, $take);
         return $this;
     }
 
