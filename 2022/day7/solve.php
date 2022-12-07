@@ -41,9 +41,12 @@ class Day07 {
     static private function input() : array {
 
         $input = file(__DIR__ . '/input', FILE_IGNORE_NEW_LINES);
+
         $map = []; // /path/to/folder => total size
         $current_path = '';
+
         foreach ($input as $line) {
+
             $args = explode(' ', $line);
 
             if ($args[0] === '$') {
@@ -59,19 +62,8 @@ class Day07 {
                         throw new \Exception('Un supported argument: ' . $line);
                     }
 
-                    echo 'Current folder: ' . $current_path . PHP_EOL;
+//                    echo 'Current folder: ' . $current_path . PHP_EOL;
 
-                } else if ($args[1] === 'ls') {
-                    continue;
-                } else {
-                    throw new \Exception('No such command: ' . $line);
-                }
-
-            } else if ($args[0] === 'dir') {
-
-                $tmp_path = rtrim($current_path, '/') . '/' . $args[1];
-                if (!isset($map[$tmp_path])) {
-                    $map[$tmp_path] = 0;
                 }
 
             } else if (is_numeric($args[0])) {
@@ -89,8 +81,6 @@ class Day07 {
 
                 } while ($tmp_path !== null);
 
-            } else {
-                throw new \Exception('No such command: ' . $line);
             }
 
         }
