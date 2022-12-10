@@ -58,34 +58,9 @@ class Day09 {
 
             }
 
-//            self::draw($knots);
-
         }
 
         return $num_visited;
-    }
-
-    static private function draw(array $knots) {
-        for ($j = 20; $j > -20; $j--) {
-            for ($i = -20; $i < 20; $i++) {
-                $has_knot = false;
-                foreach ($knots as $index => $knot) {
-                    if ($knot === [$i, $j]) {
-                        echo $index;
-                        $has_knot = true;
-                        break;
-                    }
-                }
-                if (!$has_knot) {
-                    if ($i === 0 && $j === 0) {
-                        echo 's';
-                    } else {
-                        echo '.';
-                    }
-                }
-            }
-            echo PHP_EOL;
-        }
     }
 
     static private function follow(int $x_h, int $y_h, int $x_t, int $y_t) : array {
