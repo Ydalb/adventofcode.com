@@ -4,7 +4,16 @@ class Day13 {
 
     static public function runOne() : int {
 
-        $pairs = self::input();
+        $input = file_get_contents(__DIR__ . '/input');
+        $input = explode("\n\n", $input);
+        $pairs = array_map(function(string $line) {
+            $pair = explode("\n", $line);
+            return [
+                json_decode($pair[0]),
+                json_decode($pair[1]),
+            ];
+        }, $input);
+
         $num_ordered_indices = 0;
 
         foreach ($pairs as $indice => $pair) {
@@ -20,14 +29,21 @@ class Day13 {
 
     static public function runTwo() : int {
 
-        $pairs = self::input();
-        return 0;
+        $input = file(__DIR__ . '/input', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $pairs = array_map('json_decode', $input);
+
+        $pairs[] = [[2]];
+        $pairs[] = [[6]];
+
+        usort($pairs, ['self', 'isLower']);
+
+        return (1 + array_search([[2]], $pairs)) * (1 + array_search([[6]], $pairs));
 
     }
 
     static private function isLower($left, $right) : int {
 
-        echo json_encode($left) . ' vs ' . json_encode($right) . PHP_EOL;
+//        echo json_encode($left) . ' vs ' . json_encode($right) . PHP_EOL;
 
         if (is_int($left) && is_int($right)) {
             return $left <=> $right;
@@ -51,24 +67,10 @@ class Day13 {
         } else {
             throw new \Exception('Should not happened');
         }
-    }
-
-    static private function input() : array {
-
-        $input = file_get_contents(__DIR__ . '/input');
-        $input = explode("\n\n", $input);
-        $input = array_map(function(string $line) {
-            $pair = explode("\n", $line);
-            return [
-                json_decode($pair[0]),
-                json_decode($pair[1]),
-            ];
-        }, $input);
-        return $input;
 
     }
 
 }
 
 echo Day13::runOne() . PHP_EOL;
-//echo Day13::runTwo() . PHP_EOL;
+echo Day13::runTwo() . PHP_EOL;
