@@ -19,32 +19,28 @@ class Day04 {
                 } else {
                     $points = 0;
                 }
-                echo "Game {$game_id} POINTS: {$points}\n";
                 return $carry + $points;
             }, $count = 0)
-        ;
+            ;
 
     }
 
     static public function runTwo() : int {
 
-        $total_cards = 0;
         $data = self::input();
-        $data->each(function(string $line, $line_number) use(&$total_cards, $data) : void {
-            $total_cards+= self::countPointsRec($line_number, $data);
+        $pile = array_fill(0, $data->getSize() + 1, 1);
+        $data->each(function(string $line, $i) use(&$pile, $data) : void {
+            [$game_id, $num_winner_numbers] = self::countPoints($line);
+            if ($num_winner_numbers > 0) {
+                $copies = $pile[$i + 1];
+                for ($j = 2; $j <= min($num_winner_numbers + 1, $data->getSize() + 1); $j++) {
+                    $pile[$i + $j]+= $copies;
+                }
+            }
         });
 
-        return $total_cards;
+        return array_sum($pile) - 1;
 
-    }
-
-    static private function countPointsRec(int $line_number, Input $data) : int {
-        [$game_id, $num_winner_numbers] = self::countPoints($data->get($line_number));
-        $cards = 1;
-        for ($i = 1; $i <= $num_winner_numbers; $i++) {
-            $cards+= self::countPointsRec($line_number + $i, $data);
-        }
-        return $cards;
     }
 
     static private function countPoints(string $line) : array {
@@ -57,10 +53,6 @@ class Day04 {
 
         $winning_numbers = array_map('intval', $matches_w[0]);
         $numbers = array_map('intval', $matches_n[0]);
-
-        echo "Game {$game_id} WINNING: " . implode(' ', $winning_numbers) . "\n";
-        echo "Game {$game_id} NUMBERS: " . implode(' ', $numbers) . "\n";
-
         $num_winner_numbers = count(array_intersect($winning_numbers, $numbers));
 
         return [(int)$game_id, $num_winner_numbers];
