@@ -637,3 +637,9 @@ class Input {
 
 }
 
+
+if (!function_exists('is_array_list')) {
+    function is_array_list($var) {
+        return (is_array($var) && (array_keys($var) === range(0, count($var) - 1)));
+    }
+}
