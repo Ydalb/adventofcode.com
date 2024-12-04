@@ -5,7 +5,7 @@ use AOC\Input;
 require __DIR__ . '/../../collection.php';
 
 
-class Day02 {
+class Day03 {
 
     static public function runOne() : int {
         return self::input()
@@ -54,5 +54,5 @@ class Day02 {
 
 }
 
-echo Day02::runOne() . PHP_EOL;
-echo Day02::runTwo() . PHP_EOL;
+echo Day03::runOne() . PHP_EOL;
+echo Day03::runTwo() . PHP_EOL;
